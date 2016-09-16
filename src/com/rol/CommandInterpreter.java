@@ -1,9 +1,9 @@
 package com.rol;
 
 import com.sun.istack.internal.Nullable;
-import com.sun.javafx.beans.annotations.NonNull;
 
-import java.io.*;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
@@ -16,11 +16,11 @@ public class CommandInterpreter {
     private static final int MAX_USERNAME_LENGTH = 100;
 
     private final InputStream inputStream;
-    private final OutputStream outputStream;
+    private final PrintStream outputStream;
 
     private User currentUser = null;
 
-    CommandInterpreter(InputStream inputStream, OutputStream outputStream) {
+    CommandInterpreter(InputStream inputStream, PrintStream outputStream) {
         this.inputStream = inputStream;
         this.outputStream = outputStream;
     }
@@ -71,27 +71,19 @@ public class CommandInterpreter {
         }
     }
 
-    private void writeToOutput(@NonNull String string) {
-
-        try {
-            outputStream.write(string.getBytes("UTF-8"));
-            ;
-        } catch (IOException e) {
-            // oops
-            e.printStackTrace();
-        }
-    }
-
     private void onStart() {
-        writeToOutput("Hello!\n");
+
+        outputStream.println("Hello!");
     }
 
     private void onListCommand() {
-        writeToOutput("Not implemented\n");
+
+        outputStream.println("Not implemented:\n");
     }
 
     private void onHistoryCommand() {
-        writeToOutput("Not implemented\n");
+
+        outputStream.println("Not implemented:\n");
     }
 
     private void onUserCommand(@Nullable String argument) throws Exception {
@@ -99,45 +91,45 @@ public class CommandInterpreter {
         if (argument == null || argument.length() == 0) {
 
             String message = currentUser == null ?
-                    "User not set\n" :
-                    String.format("Username is %s\n", currentUser.name);
+                    "User not set" :
+                    String.format("Username is %s", currentUser.name);
 
-            writeToOutput(message);
+            outputStream.println(message);
             return;
         }
 
         String name = argument.trim();
 
         if (name.length() > MAX_USERNAME_LENGTH) {
-            throw new Exception(String.format("Username is too long(%d max).\n", MAX_USERNAME_LENGTH));
+            throw new Exception(String.format("Username is too long(%d max).", MAX_USERNAME_LENGTH));
         }
 
         currentUser = new User(name, "host");
 
-        writeToOutput(String.format("Username is %s\n", currentUser.name));
+        outputStream.printf("Username is %s\n", currentUser.name);
     }
 
     private void onMessageCommand(@Nullable String argument) throws Exception {
 
         if (currentUser == null) {
-            throw new Exception("User not set. Use :user command.\n");
+            throw new Exception("User not set. Use :user command.");
         }
 
-        writeToOutput(String.format("%s:%s\n", currentUser, argument.trim()));
+        outputStream.printf("%s:%s\n", currentUser, argument.trim());
     }
 
     private void onQuitCommand() {
 
-        writeToOutput("Goodbye.\n");
+        outputStream.println("Goodbye.");
     }
 
     private void onInvalidCommand() {
 
-        writeToOutput("Invalid command.\n");
+        outputStream.println("Invalid command.");
     }
 
     private void onError(Exception error) {
 
-        writeToOutput(error.getMessage());
+        outputStream.println(error.getMessage());
     }
 }
