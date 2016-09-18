@@ -1,4 +1,4 @@
-package com.rol;
+package com.rol.models;
 
 import com.sun.istack.internal.Nullable;
 import com.sun.javafx.beans.annotations.NonNull;
@@ -8,7 +8,7 @@ import com.sun.javafx.beans.annotations.NonNull;
  * <p>
  * Created by Roman Laitarenko on 9/13/16.
  */
-public enum Command {
+enum Command {
     List("list"),
     History("history"),
     User("user"),

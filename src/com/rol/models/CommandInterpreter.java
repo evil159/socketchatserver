@@ -1,4 +1,4 @@
-package com.rol;
+package com.rol.models;
 
 import com.sun.istack.internal.Nullable;
 
@@ -11,7 +11,7 @@ import java.util.Scanner;
  * <p>
  * Created by Roman Laitarenko on 9/13/16.
  */
-public class CommandInterpreter {
+public class CommandInterpreter implements Runnable {
 
     private static final int MAX_USERNAME_LENGTH = 100;
 
@@ -20,11 +20,12 @@ public class CommandInterpreter {
 
     private User currentUser = null;
 
-    CommandInterpreter(InputStream inputStream, PrintStream outputStream) {
+    public CommandInterpreter(InputStream inputStream, PrintStream outputStream) {
         this.inputStream = inputStream;
         this.outputStream = outputStream;
     }
 
+    @Override
     public void run() {
 
         Scanner reader = new Scanner(inputStream);

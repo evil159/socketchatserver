@@ -1,11 +1,22 @@
 package com.rol;
 
+import com.rol.connectivity.ChatServer;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        CommandInterpreter commandInterpreter = new CommandInterpreter(System.in, System.out);
+        ChatServer server;
 
-        commandInterpreter.run();
+        try {
+            server = new ChatServer();
+        } catch (Exception e) {
+
+            System.out.println("Failed to start the server");
+            e.printStackTrace();
+            return;
+        }
+
+        server.serve();
     }
 }

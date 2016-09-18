@@ -1,4 +1,4 @@
-package com.rol;
+package com.rol.models;
 
 import com.sun.javafx.beans.annotations.NonNull;
 
@@ -9,8 +9,8 @@ import com.sun.javafx.beans.annotations.NonNull;
  */
 public class User {
 
-    public final String name;
-    public final String host;
+    final String name;
+    final String host;
 
     public User(@NonNull String name, @NonNull String host) {
         this.name = name;
