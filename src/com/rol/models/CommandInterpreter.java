@@ -1,5 +1,8 @@
 package com.rol.models;
 
+import com.rol.models.history.ChatHistory;
+import com.rol.models.history.ChatHistoryObserver;
+import com.rol.models.history.ChatMessage;
 import com.sun.istack.internal.Nullable;
 
 import java.io.InputStream;
@@ -11,7 +14,7 @@ import java.util.Scanner;
  * <p>
  * Created by Roman Laitarenko on 9/13/16.
  */
-public class CommandInterpreter implements Runnable {
+public class CommandInterpreter implements Runnable, ChatHistoryObserver {
 
     private static final int MAX_USERNAME_LENGTH = 100;
 
@@ -44,6 +47,8 @@ public class CommandInterpreter implements Runnable {
                 onError(e);
             }
         }
+
+        onStop();
     }
 
     private void onCommandReceived(@Nullable Command command) throws Exception {
@@ -75,6 +80,15 @@ public class CommandInterpreter implements Runnable {
     private void onStart() {
 
         outputStream.println("Hello!");
+
+        ChatHistory.getInstance().register(this);
+    }
+
+    private void onStop() {
+
+        ChatHistory.getInstance().deregister(this);
+
+        outputStream.println("Goodbye.");
     }
 
     private void onListCommand() {
@@ -83,8 +97,7 @@ public class CommandInterpreter implements Runnable {
     }
 
     private void onHistoryCommand() {
-
-        outputStream.println("Not implemented:\n");
+        outputStream.println(String.format("History:\n%s", ChatHistory.getInstance()));
     }
 
     private void onUserCommand(@Nullable String argument) throws Exception {
@@ -116,12 +129,14 @@ public class CommandInterpreter implements Runnable {
             throw new Exception("User not set. Use :user command.");
         }
 
-        outputStream.printf("%s:%s\n", currentUser, argument.trim());
+        ChatMessage message = new ChatMessage(currentUser, argument.trim());
+
+        ChatHistory.getInstance().insert(message);
     }
 
     private void onQuitCommand() {
 
-        outputStream.println("Goodbye.");
+        onStop();
     }
 
     private void onInvalidCommand() {
@@ -132,5 +147,14 @@ public class CommandInterpreter implements Runnable {
     private void onError(Exception error) {
 
         outputStream.println(error.getMessage());
+    }
+
+    @Override
+    public void onChatHistoryUpdate(ChatMessage message) {
+        if (currentUser == null) {
+            return;
+        }
+
+        outputStream.print(message);
     }
 }

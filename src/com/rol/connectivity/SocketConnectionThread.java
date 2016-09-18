@@ -20,12 +20,21 @@ class SocketConnectionThread extends Thread {
 
         this.socket = socket;
 
+        initialize();
+    }
+
+    private void initialize() {
         System.out.printf("Socket connection with %s(%d) established\n", socket.getInetAddress(), socket.getPort());
     }
 
     @Override
     public void run() {
         super.run();
+
+        deInitialize();
+    }
+
+    private void deInitialize() {
 
         try {
             socket.close();
