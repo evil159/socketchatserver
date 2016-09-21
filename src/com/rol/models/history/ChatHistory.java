@@ -39,6 +39,7 @@ public class ChatHistory implements ChatHistoryObservable {
 
         for (ChatMessage message : messages) {
             result.append(message);
+            result.append("\n");
         }
 
         return result.toString();

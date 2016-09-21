@@ -86,6 +86,7 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
 
     private void onStop() {
 
+        Users.getInstance().remove(currentUser);
         ChatHistory.getInstance().deregister(this);
 
         outputStream.println("Goodbye.");
@@ -93,7 +94,7 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
 
     private void onListCommand() {
 
-        outputStream.println("Not implemented:\n");
+        outputStream.println(String.format("Users:\n%s", Users.getInstance()));
     }
 
     private void onHistoryCommand() {
@@ -118,7 +119,14 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
             throw new Exception(String.format("Username is too long(%d max).", MAX_USERNAME_LENGTH));
         }
 
-        currentUser = new User(name, "host");
+        User user = new User(name);
+
+        if (Users.getInstance().exists(user)) {
+            throw new Exception("Username is already taken.");
+        }
+
+        Users.getInstance().insert(user);
+        currentUser = user;
 
         outputStream.printf("Username is %s\n", currentUser.name);
     }
@@ -136,7 +144,6 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
 
     private void onQuitCommand() {
 
-        onStop();
     }
 
     private void onInvalidCommand() {
@@ -155,6 +162,6 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
             return;
         }
 
-        outputStream.print(message);
+        outputStream.println(message);
     }
 }

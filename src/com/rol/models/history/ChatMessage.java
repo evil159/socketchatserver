@@ -19,6 +19,6 @@ public class ChatMessage {
 
     @Override
     public String toString() {
-        return String.format("%s:%s\n", sender, message);
+        return String.format("%s:%s", sender, message);
     }
 }
