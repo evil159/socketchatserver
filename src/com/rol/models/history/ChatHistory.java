@@ -27,7 +27,7 @@ public class ChatHistory implements ChatHistoryObservable {
         return staticHistory;
     }
 
-    public void insert(ChatMessage message) {
+    public synchronized void insert(ChatMessage message) {
         messages.add(message);
 
         notifyObservers(message);
