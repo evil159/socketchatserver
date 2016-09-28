@@ -3,9 +3,12 @@ package com.rol.models.history;
 import com.rol.models.User;
 
 /**
- * U-type
- * <p>
- * Created by Roman Laitarenko on 9/18/16.
+ * Chat server
+ *
+ * 9/18/16
+ * Roman Laitarenko
+ * Apollinariia Gainulenko
+ * Amirhossein Nasarbeigi
  */
 public class ChatMessage {
 

@@ -10,9 +10,12 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
- * U-type
- * <p>
- * Created by Roman Laitarenko on 9/13/16.
+ * Chat server
+ *
+ * 9/13/16
+ * Roman Laitarenko
+ * Apollinariia Gainulenko
+ * Amirhossein Nasarbeigi
  */
 public class CommandInterpreter implements Runnable, ChatHistoryObserver {
 

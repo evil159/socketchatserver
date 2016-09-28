@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * U-type
- * <p>
- * Created by Roman Laitarenko on 9/18/16.
+ * Chat server
+ *
+ * 9/18/16
+ * Roman Laitarenko
+ * Apollinariia Gainulenko
+ * Amirhossein Nasarbeigi
  */
 public class ChatHistory implements ChatHistoryObservable {
 

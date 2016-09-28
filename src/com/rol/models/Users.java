@@ -3,9 +3,12 @@ package com.rol.models;
 import java.util.ArrayList;
 
 /**
- * U-type
- * <p>
- * Created by Roman Laitarenko on 9/21/16.
+ * Chat server
+ *
+ * 9/21/16
+ * Roman Laitarenko
+ * Apollinariia Gainulenko
+ * Amirhossein Nasarbeigi
  */
 public class Users {
 

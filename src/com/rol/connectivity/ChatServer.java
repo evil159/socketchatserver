@@ -5,9 +5,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * U-type
- * <p>
- * Created by Roman Laitarenko on 9/16/16.
+ * Chat server
+ *
+ * 9/16/16
+ * Roman Laitarenko
+ * Apollinariia Gainulenko
+ * Amirhossein Nasarbeigi
  */
 public class ChatServer {
 

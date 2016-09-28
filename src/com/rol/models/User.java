@@ -3,9 +3,12 @@ package com.rol.models;
 import com.sun.javafx.beans.annotations.NonNull;
 
 /**
- * U-type
- * <p>
- * Created by Roman Laitarenko on 9/13/16.
+ * Chat server
+ *
+ * 9/13/16
+ * Roman Laitarenko
+ * Apollinariia Gainulenko
+ * Amirhossein Nasarbeigi
  */
 public class User {
 
