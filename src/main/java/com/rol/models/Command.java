@@ -1,8 +1,5 @@
 package com.rol.models;
 
-import com.sun.istack.internal.Nullable;
-import com.sun.javafx.beans.annotations.NonNull;
-
 /**
  * Chat server
  *
@@ -23,12 +20,11 @@ enum Command {
     public final String name;
     public String argument;
 
-    Command(@NonNull String name) {
+    Command(String name) {
         this.name = name;
     }
 
-    @Nullable
-    public static Command fromInput(@NonNull String input) {
+    public static Command fromInput(String input) {
 
         if (!input.startsWith(COMMAND_PREFIX)) {
             Message.argument = input;

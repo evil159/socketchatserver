@@ -3,8 +3,6 @@ package com.rol.models;
 import com.rol.models.history.ChatHistory;
 import com.rol.models.history.ChatHistoryObserver;
 import com.rol.models.history.ChatMessage;
-import com.sun.istack.internal.Nullable;
-import com.sun.javafx.beans.annotations.NonNull;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -32,7 +30,6 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
         this.outputStream = outputStream;
     }
 
-    @Override
     public void run() {
 
         Scanner reader = new Scanner(inputStream);
@@ -63,7 +60,7 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
         onStop();
     }
 
-    private void onCommandReceived(@Nullable Command command) throws Exception {
+    private void onCommandReceived(Command command) throws Exception {
 
         if (command == null) {
             onInvalidCommand();
@@ -113,7 +110,7 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
         outputStream.println(String.format("History:\n%s", ChatHistory.getInstance()));
     }
 
-    private void onUserCommand(@Nullable String argument) throws Exception {
+    private void onUserCommand(String argument) throws Exception {
 
         if (argument == null || argument.length() == 0) {
 
@@ -143,7 +140,7 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
         sendMessageToClient("Username is " + currentUser.name);
     }
 
-    private void onMessageCommand(@Nullable String argument) throws Exception {
+    private void onMessageCommand(String argument) throws Exception {
 
         if (currentUser == null) {
             throw new Exception("User not set. Use :user command.");
@@ -154,7 +151,7 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
         ChatHistory.getInstance().insert(message);
     }
 
-    private void sendMessageToClient(@NonNull String message) {
+    private void sendMessageToClient(String message) {
         System.out.println(String.format("Message to %s: %s", currentUser == null ? "" : currentUser, message));
 
         outputStream.println(message);
@@ -174,7 +171,6 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
         sendMessageToClient(error.getMessage());
     }
 
-    @Override
     public void onChatHistoryUpdate(ChatMessage message) {
         if (currentUser == null) {
             return;

@@ -1,7 +1,5 @@
 package com.rol.models;
 
-import com.sun.javafx.beans.annotations.NonNull;
-
 /**
  * Chat server
  *
@@ -14,7 +12,7 @@ public class User {
 
     final String name;
 
-    public User(@NonNull String name) {
+    public User(String name) {
         this.name = name;
     }
 
