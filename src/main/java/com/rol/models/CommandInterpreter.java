@@ -4,6 +4,7 @@ import com.rol.models.history.ChatHistory;
 import com.rol.models.history.ChatHistoryObserver;
 import com.rol.models.history.ChatMessage;
 import com.sun.istack.internal.Nullable;
+import com.sun.javafx.beans.annotations.NonNull;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -11,7 +12,7 @@ import java.util.Scanner;
 
 /**
  * Chat server
- *
+ * <p>
  * 9/13/16
  * Roman Laitarenko
  * Apollinariia Gainulenko
@@ -41,7 +42,15 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
 
         while (command != Command.Quit) {
 
-            String input = reader.nextLine();
+            String input = null;
+            try {
+                input = reader.nextLine();
+            } catch (Exception e) {
+                break;
+            }
+
+            System.out.println(String.format("Message from %s: %s", currentUser == null ? "" : currentUser, input));
+
             command = Command.fromInput(input);
 
             try {
@@ -82,7 +91,7 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
 
     private void onStart() {
 
-        outputStream.println("Hello!");
+        sendMessageToClient("Hello!");
 
         ChatHistory.getInstance().register(this);
     }
@@ -92,12 +101,12 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
         Users.getInstance().remove(currentUser);
         ChatHistory.getInstance().deregister(this);
 
-        outputStream.println("Goodbye.");
+        sendMessageToClient("Goodbye.");
     }
 
     private void onListCommand() {
 
-        outputStream.println(String.format("Users:\n%s", Users.getInstance()));
+        sendMessageToClient(String.format("Users:\n%s", Users.getInstance()));
     }
 
     private void onHistoryCommand() {
@@ -112,7 +121,7 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
                     "User not set" :
                     String.format("Username is %s", currentUser.name);
 
-            outputStream.println(message);
+            sendMessageToClient(message);
             return;
         }
 
@@ -131,7 +140,7 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
         Users.getInstance().insert(user);
         currentUser = user;
 
-        outputStream.printf("Username is %s\n", currentUser.name);
+        sendMessageToClient("Username is " + currentUser.name);
     }
 
     private void onMessageCommand(@Nullable String argument) throws Exception {
@@ -145,18 +154,24 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
         ChatHistory.getInstance().insert(message);
     }
 
+    private void sendMessageToClient(@NonNull String message) {
+        System.out.println(String.format("Message to %s: %s", currentUser == null ? "" : currentUser, message));
+
+        outputStream.println(message);
+    }
+
     private void onQuitCommand() {
 
     }
 
     private void onInvalidCommand() {
 
-        outputStream.println("Invalid command.");
+        sendMessageToClient("Invalid command.");
     }
 
     private void onError(Exception error) {
 
-        outputStream.println(error.getMessage());
+        sendMessageToClient(error.getMessage());
     }
 
     @Override
@@ -165,6 +180,6 @@ public class CommandInterpreter implements Runnable, ChatHistoryObserver {
             return;
         }
 
-        outputStream.println(message);
+        sendMessageToClient(message.toString());
     }
 }

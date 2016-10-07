@@ -15,12 +15,13 @@ import java.net.Socket;
 public class ChatServer {
 
     private static final int SERVER_SOCKET_QUEUE_SIZE = 3;
+    private static final int SERVER_PORT = 4444;
 
     private final ServerSocket serverSocket;
 
     public ChatServer() throws Exception {
 
-        serverSocket = new ServerSocket(0, SERVER_SOCKET_QUEUE_SIZE);
+        serverSocket = new ServerSocket(SERVER_PORT, SERVER_SOCKET_QUEUE_SIZE);
     }
 
     public void serve() {
